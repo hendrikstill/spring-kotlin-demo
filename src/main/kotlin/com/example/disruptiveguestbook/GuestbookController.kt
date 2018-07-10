@@ -39,7 +39,7 @@ class GuestbookController(
     }
 
     private fun extractHashtag(text: String): String? {
-        val hashtag = text.substringAfter('#').substringBefore(" ")
+        val hashtag = text.substringAfter('#',"").substringBefore(" ")
 
         return when (hashtag.isEmpty()) {
             true -> null
