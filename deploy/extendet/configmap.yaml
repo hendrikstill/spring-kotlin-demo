@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: disruptive-guestbook
+data:
+  GIPHY_APIKEY: "PUT-YOUR-API-KEY-HERE"
+  SPRING_DATA_MONGODB_HOST: "mongodb.databases.svc.cluster.local"

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: disruptive-guestbook
+  labels:
+    app: disruptive-guestbook
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: disruptive-guestbook
+  template:
+    metadata:
+      labels:
+        app: disruptive-guestbook
+    spec:
+      containers:
+        - name: app
+          image: disruptive-guestbook:1.0.0
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: disruptive-guestbook
+          readinessProbe: # Tells the loadbalancer to send traffic to our pod
+            httpGet:
+              port: 8080
+              path: /actuator/health/readiness
+          livenessProbe: # Tells the k8s scheduler to restart the pod when down
+            httpGet:
+              port: 8080
+              path: /actuator/health/liveness
+          resources:
+            limits:
+              cpu: "1"
+              memory: "256Mi"

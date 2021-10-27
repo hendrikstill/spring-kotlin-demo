@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: disruptive-guestbook
+  labels:
+    app: disruptive-guestbook
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: disruptive-guestbook
+  template:
+    metadata:
+      labels:
+        app: disruptive-guestbook
+    spec:
+      containers:
+        - name: app
+          image: disruptive-guestbook:1.0.0
+          ports:
+            - containerPort: 8080
