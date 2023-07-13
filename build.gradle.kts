@@ -1,10 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.5.6"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("jvm") version "1.5.31"
-    kotlin("plugin.spring") version "1.5.31"
+    id("org.springframework.boot") version "2.7.13"
+    id("io.spring.dependency-management") version "1.0.15.RELEASE"
+    id("org.jetbrains.kotlin.jvm") version "1.6.21"
+    id("org.jetbrains.kotlin.plugin.spring") version "1.6.21"
+    id("com.google.cloud.tools.jib") version "3.3.2"
 }
 
 group = "com.example"
@@ -28,7 +29,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 }
 
