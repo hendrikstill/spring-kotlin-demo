@@ -1,0 +1,12 @@
+apiVersion: skaffold/v4beta5
+kind: Config
+metadata:
+  name: spring-kotlin-demo
+build:
+  artifacts:
+    - image: hendrikstill/disruptive-guestbook
+      jib: {}
+manifests:
+  rawYaml:
+    - deploy/disruptive-guestbook.yaml
+    - deploy/mongo.yaml

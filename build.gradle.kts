@@ -36,3 +36,9 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+jib{
+    to {
+        image = "hendrikstill/disruptive-guestbook"
+    }
+}
