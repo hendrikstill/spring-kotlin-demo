@@ -15,10 +15,10 @@
 <body>
 
 <div id="app">
-    <nav class="navbar sticky-top navbar-light bg-light">
+    <nav class="navbar sticky-top navbar-light" v-bind:style="{ backgroundColor: headerBackgroundColor }">
         <div class="form-inline">
 
-            <div class="col-auto">
+            <div class="col-auto" >
                 <label class="sr-only col-form-label" for="inlineFormInputGroupUsername2">Username</label>
                 <div class="input-group mb-2 mr-lg-2">
                     <div class="input-group-prepend">
@@ -58,6 +58,10 @@
         </div>
 
     </div>
+
+    <nav class="navbar fixed-bottom navbar-expand-sm navbar-light" v-bind:style="{ backgroundColor: headerBackgroundColor }">
+        <div class="col-auto"> Pod: {{ podName }} Host: {{ hostName }}</div>
+    </nav>
 </div>
 
 
@@ -78,6 +82,7 @@
     .navbar{
         display: flex;
         justify-content: center;
+        transition: background-color 1s ease;
     }
     .form-inline{
         width: 800px;
@@ -96,13 +101,20 @@
         el: '#app',
         data: {
             messages: [],
+            headerBackgroundColor: '#1E90FF',
+            podName: 'unknown',
+            hostName: 'unknown',
         },
         methods: {
             refreshMessages: function () {
                 fetch("/messages")
                     .then(res => res.json())
-            .then(res => res.reverse())
-            .then(res => this.messages = res);
+            .then(res => {
+                this.messages = res.messages.reverse();
+                this.headerBackgroundColor = res.hostBackgroundColor;
+                this.podName = res.podName;
+                this.hostName = res.hostName;
+             });
             },
             createMessage: function () {
                 fetch("/messages", {

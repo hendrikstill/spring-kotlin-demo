@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class GuestbookController(
     private val messageRepository: MessageRepository,
-    private val giphyService: GiphyService
+    private val giphyService: GiphyService,
+    private val environmentProperties: EnvironmentProperties
 ) {
 
     companion object {
@@ -20,10 +21,15 @@ class GuestbookController(
     }
 
     @GetMapping("/messages")
-    fun getMessages(@RequestParam user: String?): List<Message> {
+    fun getMessages(@RequestParam user: String?): MessagesDto {
         return when (user) {
-            null -> messageRepository.findAll()
-            else -> messageRepository.findByFromUser(user)
+            null -> MessagesDto(
+                messages = messageRepository.findAll(),
+                podName = environmentProperties.podName,
+                hostName = environmentProperties.hostName,
+                hostBackgroundColor = environmentProperties.hostBackgroundColor
+            )
+            else -> MessagesDto(messages = messageRepository.findByFromUser(user))
         }
     }
 

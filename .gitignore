@@ -27,3 +27,5 @@
 /.nb-gradle/
 
 /bin
+
+/deploy/secrets/secrets.yaml
