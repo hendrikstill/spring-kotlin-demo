@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController
 class GuestbookController(
     private val messageRepository: MessageRepository,
     private val giphyService: GiphyService,
-    private val environmentProperties: EnvironmentProperties
+    private val environmentProperties: EnvironmentProperties,
+    private val hostBackgroundColorResolver: HostBackgroundColorResolver
 ) {
 
     companion object {
@@ -27,7 +28,7 @@ class GuestbookController(
                 messages = messageRepository.findAll(),
                 podName = environmentProperties.podName,
                 hostName = environmentProperties.hostName,
-                hostBackgroundColor = environmentProperties.hostBackgroundColor
+                hostBackgroundColor = hostBackgroundColorResolver.resolveColor()
             )
             else -> MessagesDto(messages = messageRepository.findByFromUser(user))
         }
