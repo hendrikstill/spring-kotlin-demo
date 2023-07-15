@@ -6,7 +6,7 @@ metadata:
     app: disruptive-guestbook
   name: disruptive-guestbook
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: disruptive-guestbook
@@ -19,11 +19,19 @@ spec:
     spec:
       containers:
       - image: hendrikstill/disruptive-guestbook
+        imagePullPolicy: Always
         name: disruptive-guestbook
         env:
           - name: SPRING_DATA_MONGODB_HOST
             value: mongo
-
+          - name: ENVIRONMENT_HOSTNAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: ENVIRONMENT_PODNAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
         envFrom:
           - secretRef:
               name: disruptive-guestbook
