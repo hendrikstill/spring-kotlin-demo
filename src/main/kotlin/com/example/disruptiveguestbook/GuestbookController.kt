@@ -14,7 +14,8 @@ class GuestbookController(
     private val messageRepository: MessageRepository,
     private val giphyService: GiphyService,
     private val environmentProperties: EnvironmentProperties,
-    private val hostBackgroundColorResolver: HostBackgroundColorResolver
+    private val hostBackgroundColorResolver: HostBackgroundColorResolver,
+    private val emojiResolver: PodNameToEmojiResolver
 ) {
 
     companion object {
@@ -26,7 +27,7 @@ class GuestbookController(
         return when (user) {
             null -> MessagesDto(
                 messages = messageRepository.findAll(),
-                podName = environmentProperties.podName,
+                podName = "${environmentProperties.podName} ${emojiResolver.resolveToEmoji(environmentProperties.podName)} ",
                 hostName = environmentProperties.hostName,
                 hostBackgroundColor = hostBackgroundColorResolver.resolveColor()
             )

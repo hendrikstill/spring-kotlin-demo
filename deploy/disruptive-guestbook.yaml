@@ -37,7 +37,28 @@ spec:
               name: disruptive-guestbook
         ports:
           - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            port: 8080
+            path: /actuator/health/liveness
+          initialDelaySeconds: 15
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            port: 8080
+            path: /actuator/health/readiness
+          initialDelaySeconds: 15
+          periodSeconds: 3
         resources: {}
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: disruptive-guestbook
+          matchLabelKeys:
+            - pod-template-hash
 status: {}
 ---
 apiVersion: v1
