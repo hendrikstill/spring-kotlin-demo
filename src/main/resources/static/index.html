@@ -110,6 +110,7 @@
                 fetch("/messages")
                     .then(res => res.json())
             .then(res => {
+                this.messages = res.messages;
                 this.headerBackgroundColor = res.hostBackgroundColor;
                 this.podName = res.podName;
                 this.hostName = res.hostName;

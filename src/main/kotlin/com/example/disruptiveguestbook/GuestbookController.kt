@@ -29,7 +29,7 @@ class GuestbookController(
     fun getMessages(@RequestParam user: String?): MessagesDto {
         return when (user) {
             null -> MessagesDto(
-                messages = messageRepository.findAll().sortedBy{ message -> message.createdAt }.takeLast(20).reversed(),
+                messages = messageRepository.findAll().sortedByDescending{ message -> message.createdAt }.take(20),
                 podName = emojiResolver.resolveToWithEmoji(environmentProperties.podName),
                 hostName = environmentProperties.hostName,
                 hostBackgroundColor = hostBackgroundColorResolver.resolveColor()
