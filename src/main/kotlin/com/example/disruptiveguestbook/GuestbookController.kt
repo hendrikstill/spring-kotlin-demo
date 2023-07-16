@@ -1,6 +1,9 @@
 package com.example.disruptiveguestbook
 
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -26,8 +29,8 @@ class GuestbookController(
     fun getMessages(@RequestParam user: String?): MessagesDto {
         return when (user) {
             null -> MessagesDto(
-                messages = messageRepository.findAll(),
-                podName = "${environmentProperties.podName} ${emojiResolver.resolveToEmoji(environmentProperties.podName)} ",
+                messages = messageRepository.findAll().sortedBy{ message -> message.createdAt }.takeLast(20).reversed(),
+                podName = emojiResolver.resolveToWithEmoji(environmentProperties.podName),
                 hostName = environmentProperties.hostName,
                 hostBackgroundColor = hostBackgroundColorResolver.resolveColor()
             )

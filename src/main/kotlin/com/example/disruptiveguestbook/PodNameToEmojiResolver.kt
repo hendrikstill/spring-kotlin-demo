@@ -1,13 +1,21 @@
 package com.example.disruptiveguestbook
 
 import org.springframework.stereotype.Component
+import kotlin.math.abs
+
 @Component
 class PodNameToEmojiResolver {
 
     val emojiMap = listOf("🙈","😜","😱","🎅","🖖","✊🏿","💣","👑","💎","🦊","🐧","🦋","🍒","🍣","🍺","🛵","⛵","🌈","💡","🔭")
-    fun resolveToEmoji(input : String) : String{
-        val countOfEmojis =  emojiMap.size
-        val emojiIndex = input.hashCode() % countOfEmojis
-        return emojiMap[emojiIndex]
+    fun resolveToWithEmoji(input : String) : String{
+        try {
+            val countOfEmojis =  emojiMap.size
+            val emojiIndex = abs(input.hashCode()) % countOfEmojis
+            val podNameEnding = input.takeLast(5)
+            return "$podNameEnding ${emojiMap[emojiIndex]}"
+        }catch (e: RuntimeException) {
+            return "💩"
+        }
+
     }
 }
