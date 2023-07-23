@@ -1,0 +1,26 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    deployment:
+      kind: Deployment
+      replicas: 1
+    service:
+      type: LoadBalancer
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: "true"
+    #topologySpreadConstraints:
+    #  - labelSelector:
+    #      matchLabels:
+    #        app: '{{ template "traefik.name" . }}'
+    #    maxSkew: 1
+    #    topologyKey: kubernetes.io/hostname
+    #    whenUnsatisfiable: DoNotSchedule
+    logs:
+      access:
+        enabled: true
+      general:
+        level: DEBUG

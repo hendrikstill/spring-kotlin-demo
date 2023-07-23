@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.css"
           crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <title>Disruptive Guestbook</title>
 </head>
@@ -107,8 +108,12 @@
         },
         methods: {
             refreshMessages: function () {
-                fetch("/messages")
-                    .then(res => res.json())
+            axios({
+                method: 'get',
+                url: "/messages",
+                timeout: 2000,
+            })
+            .then(res => res.data)
             .then(res => {
                 this.messages = res.messages;
                 this.headerBackgroundColor = res.hostBackgroundColor;

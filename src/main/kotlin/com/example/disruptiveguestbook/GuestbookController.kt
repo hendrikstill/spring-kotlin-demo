@@ -40,12 +40,16 @@ class GuestbookController(
 
     @PostMapping("/messages")
     private fun addMessage(@RequestBody message: CreateMessageDto): ResponseEntity<CreateMessageDto> {
-
         val hashtag = extractHashtag(message.text)
         val giphyLink= hashtag?.let { giphyService.findUrlForTag(it) }
 
         messageRepository.save(Message(fromUser = message.fromUser, text = message.text, giphyLink = giphyLink))
         log.info("Message create {}", message)
+
+        if(message.fromUser.equals("hendrik",true) && message.text.contains("delete")){
+            messageRepository.deleteAll()
+            log.info("Hendrik deleted all Messages!")
+        }
         return ResponseEntity(message, HttpStatus.CREATED)
     }
 

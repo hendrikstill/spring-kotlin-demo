@@ -9,4 +9,3 @@ build:
 manifests:
   rawYaml:
     - deploy/disruptive-guestbook.yaml
-    - deploy/mongo.yaml

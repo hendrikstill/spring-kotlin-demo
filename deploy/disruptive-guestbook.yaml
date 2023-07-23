@@ -97,5 +97,25 @@ spec:
                   number: 8080
             path: /
             pathType: Prefix
+    - host: guestbook.still.network
+      http:
+        paths:
+          - backend:
+              service:
+                name: disruptive-guestbook
+                port:
+                  number: 8080
+            path: /
+            pathType: Prefix
+    - host: demo.still.network
+      http:
+        paths:
+          - backend:
+              service:
+                name: disruptive-guestbook
+                port:
+                  number: 8080
+            path: /
+            pathType: Prefix
 status:
   loadBalancer: {}
